@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'Views/home_screen.dart';
-
+import 'package:mvvm_architecture_restapi_provider/utils/routes/routes.dart';
+import 'package:mvvm_architecture_restapi_provider/utils/routes/routes_name.dart';
+import 'package:mvvm_architecture_restapi_provider/view/home_screen.dart';
 void main() {
   runApp(const MyApp());
 }
@@ -14,11 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const HomeScreen(),
+      // theme: ThemeData(
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      //   useMaterial3: true,
+      // ),
+      initialRoute: RoutesName.login,
+      onGenerateRoute: Routes.generateRoute
     );
   }
 }
