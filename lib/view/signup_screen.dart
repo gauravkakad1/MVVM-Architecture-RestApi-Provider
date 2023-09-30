@@ -1,8 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mvvm_architecture_restapi_provider/model/auth_view_model.dart';
 import 'package:mvvm_architecture_restapi_provider/res/components/my_button.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/routes/routes_name.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -36,6 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final _authViewModel = Provider.of<AuthViewModel>(context);
     var height = MediaQuery.of(context).size.height * 1;
     var width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
@@ -123,6 +126,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               SizedBox(height: MediaQuery.sizeOf(context).height * 0.02),
               MyButton(
+                  loading: _authViewModel.registerLoading,
                   title: "Login",
                   onpress: () {
                     if (_nameController.text.isEmpty) {
@@ -134,12 +138,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     } else if (_passwordController.text.length < 6) {
                       Utils.flushbarMessage(context, "Enter 6 Digit Password");
                     } else {
-                      Navigator.pushNamed(context, RoutesName.login);
+                      Map data = {
+                        'email': _emailController.text.toString(),
+                        'password': _passwordController.text.toString()
+                      };
+                      _authViewModel.registerApi(data, context);
                     }
                   }),
               TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.login);
+                    Navigator.pushReplacementNamed(context, RoutesName.login);
                   },
                   child: const Text("Already have an account ? Login Up"))
             ],

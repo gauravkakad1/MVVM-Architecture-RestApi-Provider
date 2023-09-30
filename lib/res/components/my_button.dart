@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class MyButton extends StatelessWidget {
   final String title;
   final VoidCallback onpress;
-  final bool islogin;
+  final bool loading;
 
   const MyButton(
       {super.key,
       required this.title,
-      this.islogin = false,
+      this.loading = false,
       required this.onpress});
 
   @override
@@ -23,10 +23,15 @@ class MyButton extends StatelessWidget {
           color: Colors.orange,
         ),
         child: Center(
-            child: Text(
-          title,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        )),
+            child: loading
+                ? CircularProgressIndicator(
+                    color: Colors.white,
+                  )
+                : Text(
+                    title,
+                    style: const TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.bold),
+                  )),
       ),
     );
   }
