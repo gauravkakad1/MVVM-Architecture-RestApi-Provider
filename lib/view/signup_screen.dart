@@ -4,21 +4,35 @@ import 'package:mvvm_architecture_restapi_provider/res/components/my_button.dart
 import 'package:mvvm_architecture_restapi_provider/utils/routes/routes_name.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/utils.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+
+  FocusNode nameFocusNode = FocusNode();
+  FocusNode emailFocusNode = FocusNode();
+  FocusNode passwordFocusNode = FocusNode();
 
   ValueNotifier<bool> visible = ValueNotifier<bool>(false);
 
-  FocusNode emailFocusNode = FocusNode();
-  FocusNode passwordFocusNode = FocusNode();
+  @override
+  void dispose() {
+    super.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _nameController.dispose();
+    nameFocusNode.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
+    visible.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
     var width = MediaQuery.of(context).size.width * 1;
     return Scaffold(
       appBar: AppBar(
-        title: const Text("LoginScreen"),
+        title: const Text("SignUp Screen"),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -37,8 +51,27 @@ class _LoginScreenState extends State<LoginScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
-                "Welcome Back",
+                "Create Account",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: height * 0.02),
+              SizedBox(
+                width: 400,
+                child: TextFormField(
+                  focusNode: nameFocusNode,
+                  onFieldSubmitted: (value) {
+                    Utils.fieldFocusChange(
+                        context, nameFocusNode, emailFocusNode);
+                  },
+                  controller: _nameController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                      prefixIcon: const Icon(Icons.alternate_email),
+                      hintText: "Enter your Name",
+                      labelText: "Name",
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10))),
+                ),
               ),
               SizedBox(height: height * 0.02),
               SizedBox(
@@ -53,7 +86,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                       prefixIcon: const Icon(Icons.alternate_email),
-                      hintText: "eve.holt@reqres.in",
+                      hintText: "Enter your Email",
                       labelText: "Email",
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10))),
@@ -66,9 +99,9 @@ class _LoginScreenState extends State<LoginScreen> {
                   valueListenable: visible,
                   builder: (context, value, child) {
                     return TextFormField(
+                      focusNode: passwordFocusNode,
                       obscureText: visible.value,
                       obscuringCharacter: "*",
-                      focusNode: passwordFocusNode,
                       controller: _passwordController,
                       decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.lock),
@@ -80,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ? const Icon(Icons.visibility_off_outlined)
                                 : const Icon(Icons.visibility),
                           ),
-                          hintText: "password",
+                          hintText: "Create a password",
                           labelText: "Password",
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10))),
@@ -92,21 +125,23 @@ class _LoginScreenState extends State<LoginScreen> {
               MyButton(
                   title: "Login",
                   onpress: () {
-                    if (_emailController.text.isEmpty) {
+                    if (_nameController.text.isEmpty) {
+                      Utils.flushbarMessage(context, "Enter your name");
+                    } else if (_emailController.text.isEmpty) {
                       Utils.flushbarMessage(context, "Enter email address");
                     } else if (_passwordController.text.isEmpty) {
                       Utils.flushbarMessage(context, "Enter password");
                     } else if (_passwordController.text.length < 6) {
                       Utils.flushbarMessage(context, "Enter 6 Digit Password");
                     } else {
-                      Navigator.pushNamed(context, RoutesName.home);
+                      Navigator.pushNamed(context, RoutesName.login);
                     }
                   }),
               TextButton(
                   onPressed: () {
-                    Navigator.pushNamed(context, RoutesName.signup);
+                    Navigator.pushNamed(context, RoutesName.login);
                   },
-                  child: const Text("Don't have an account ? Sign Up"))
+                  child: const Text("Already have an account ? Login Up"))
             ],
           ),
         ),
