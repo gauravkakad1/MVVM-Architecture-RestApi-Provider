@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:mvvm_architecture_restapi_provider/model/auth_view_model.dart';
+import 'package:mvvm_architecture_restapi_provider/model/UserModel.dart';
+import 'package:mvvm_architecture_restapi_provider/view_model/auth_view_model.dart';
 import 'package:mvvm_architecture_restapi_provider/res/components/my_button.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/routes/routes_name.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/utils.dart';
+import 'package:mvvm_architecture_restapi_provider/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {

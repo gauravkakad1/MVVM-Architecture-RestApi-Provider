@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mvvm_architecture_restapi_provider/model/auth_view_model.dart';
+import 'package:mvvm_architecture_restapi_provider/view_model/auth_view_model.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/routes/routes.dart';
 import 'package:mvvm_architecture_restapi_provider/utils/routes/routes_name.dart';
+import 'package:mvvm_architecture_restapi_provider/view_model/user_view_model.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -17,15 +18,12 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
+        ChangeNotifierProvider(create: (_) => UserViewModel()),
       ],
       child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          // theme: ThemeData(
-          //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          //   useMaterial3: true,
-          // ),
-          initialRoute: RoutesName.login,
+          title: 'login and Signup using MVVM Architecture',
+          initialRoute: RoutesName.splash,
           onGenerateRoute: Routes.generateRoute),
     );
   }
