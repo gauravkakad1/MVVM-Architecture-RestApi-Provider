@@ -4,6 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class Utils {
+
+
+  static double avgMovieRating(List<num> ratinglist){
+    double avgRating = 0;
+    for(int rating=0;rating<ratinglist.length;rating++){
+      avgRating +=ratinglist[rating];
+    }
+    return double.parse((avgRating/ratinglist.length).toStringAsFixed(1));
+  }
+
   static void fieldFocusChange(
       BuildContext context, FocusNode current, FocusNode next) {
     current.unfocus();
